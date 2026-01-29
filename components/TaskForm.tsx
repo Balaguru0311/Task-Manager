@@ -14,7 +14,18 @@ export const TaskForm = ({ tasks, addTask }: TaskFormProps) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const trimmedTitle = title.trim();
-    if (!trimmedTitle) return;
+
+    if (trimmedTitle.length < 3) {
+      alert("Task must be at least 3 characters long.");
+      return;
+    }
+
+    const validPattern = /^(?=.*[a-zA-Z])[a-zA-Z0-9\s]+$/;
+
+    if (!validPattern.test(trimmedTitle)) {
+      alert("Task must contain letters and no special characters.");
+      return;
+    }
 
     const normalizedNewTask = trimmedTitle.toLowerCase().replace(/\s+/g, '');
     const isDuplicate = tasks.some((task) => {
